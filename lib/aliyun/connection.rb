@@ -4,7 +4,7 @@ module Aliyun
 
     def initialize(options)
       @access_key_id = options.delete :access_key_id
-      @secret_access_key = options.delete :secret_access_key
+      @access_key_secret = options.delete :access_key_secret
       @host = options.delete :host
     end
 
@@ -14,7 +14,7 @@ module Aliyun
       body = options.delete(:body) || nil
       method = method.to_s.upcase
 
-      head_hash = Signature.generate(@access_key_id, @secret_access_key, :method => method, :path => URI.decode(path), :headers => headers)
+      head_hash = Signature.generate(@access_key_id, @access_key_secret, :method => method, :path => URI.decode(path), :headers => headers)
 
       http = Net::HTTP.new(@host)
       # http.set_debug_output $stdout

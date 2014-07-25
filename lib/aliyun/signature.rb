@@ -1,7 +1,7 @@
 module Aliyun
   class Signature
     
-    def self.generate(access_key_id, secret_access_key, options)
+    def self.generate(access_key_id, access_key_secret, options)
       method = options.delete(:method)
       path   = options.delete(:path)
       headers = options.delete(:headers) || {}
@@ -10,7 +10,7 @@ module Aliyun
 
       date = Time.now.gmtime.strftime('%a, %d %b %Y %H:%M:%S GMT')
 
-      oss_sign = ali_oss_sign(secret_access_key, method, date, path,
+      oss_sign = ali_oss_sign(access_key_secret, method, date, path,
         :headers => headers, :md5 => md5, :content_type => content_type)
 
       hash = {'Authorization' => "OSS #{access_key_id}:#{oss_sign}", 'Date' => date}
@@ -24,7 +24,7 @@ module Aliyun
     end
 
     private
-    def self.ali_oss_sign(secret_access_key, verb, date, res,options={})
+    def self.ali_oss_sign(access_key_secret, verb, date, res,options={})
       digest  = OpenSSL::Digest::Digest.new('sha1')
 
       md5 = options[:md5] || ''
@@ -38,7 +38,7 @@ module Aliyun
 
       str = "#{verb}\n\n#{ty}\n#{date}\n#{header}#{res}"
       
-      bytemac = OpenSSL::HMAC.digest(digest, secret_access_key, str)
+      bytemac = OpenSSL::HMAC.digest(digest, access_key_secret, str)
       res = Base64.encode64(bytemac).strip
     end
 
