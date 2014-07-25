@@ -1,29 +1,18 @@
-# Aliyun
+# 引用 Aliyun
 
-TODO: Write a gem description
+```ruby
+gem 'aliyun',
+    :github => 'mindpin/aliyun',
+    :tag => '0.0.1'
+```
 
-## Installation
+# 使用
 
-Add this line to your application's Gemfile:
+## 上传文件
 
-    gem 'aliyun'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install aliyun
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+file = File.new("/xxx/yyy.jpg")
+as = Aliyun::Service.new(:access_key_id => access_key_id, :secret_access_key => secret_access_key, :host => 'oss-cn-qingdao.aliyuncs.com' )
+ab = as.bucket(bucket_name)
+ab.object("/xxx/yyy/zzz.jpg").upload(file)
+```

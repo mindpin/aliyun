@@ -9,12 +9,13 @@ module Aliyun
       @path = File.join("/", @bucket.name, @name)
     end
 
-    def upload(file, content_type)
+    def upload(file, content_type = nil)
       body = IO.read(file.path)
       ##上传文件，不传MD5也行
       # md5 = Digest::MD5.hexdigest(body)
       # md5 = Base64.encode64(md5).strip
       content_length = body.length
+      content_type ||= Util.mime_type(File.basename(file))
       @connection.request(:put, :path => @path, :body => body,
         :headers => {  :content_type => content_type })
     end
