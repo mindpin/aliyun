@@ -5,6 +5,7 @@ module Aliyun
     def initialize(options)
       @access_key_id = options.delete :access_key_id
       @secret_access_key = options.delete :secret_access_key
+      @host = options.delete :host
     end
 
     def request(method, options)
@@ -15,7 +16,7 @@ module Aliyun
 
       head_hash = Signature.generate(@access_key_id, @secret_access_key, :method => method, :path => URI.decode(path), :headers => headers)
 
-      http = Net::HTTP.new('oss-cn-qingdao.aliyuncs.com')
+      http = Net::HTTP.new(@host)
       # http.set_debug_output $stdout
       http.start do |http|
         r = http.send_request( method.to_s.upcase, path, body, head_hash)
