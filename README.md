@@ -3,7 +3,7 @@
 ```ruby
 gem 'aliyun',
     :github => 'mindpin/aliyun',
-    :tag => '0.0.3'
+    :tag => '0.0.4'
 ```
 
 # 使用
