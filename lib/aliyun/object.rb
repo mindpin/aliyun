@@ -9,6 +9,11 @@ module Aliyun
       @path = File.join("/", @bucket.name, @name)
     end
 
+    def url
+      path = File.join("/", @name)
+      "http://#{@bucket.name}.oss-cn-qingdao.aliyuncs.com#{path}"
+    end
+
     def upload(file, content_type = nil)
       body = IO.read(file.path)
       ##上传文件，不传MD5也行
